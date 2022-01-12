@@ -1,0 +1,38 @@
+job('run-server') {
+  jdk('oracle-8u202')
+  scm {
+    git {
+      branch('master')
+      remote {
+        url("https://gitlab.ciklum.net/2021-hybris-internship-2/andrii.diachuk.git")
+        credentials('my_profile')
+      }
+      extensions {
+        relativeTargetDirectory('hybris/bin/custom')
+      }
+    }
+  }
+  steps {
+    shell("""
+          cd hybris/bin/platform
+          . `pwd`/setantenv.sh
+		  ant yunitinit
+          ant alltests -Dtestclasses.extensions=internshipcore
+          ant production
+          ant updatesystem
+          #. `pwd`/hybrisserver.sh
+          """
+         )
+  }
+  publishers {
+    findText {
+      textFinders {
+        textFinder {
+          regexp 'Tests FAILED'
+          alsoCheckConsoleOutput true
+          buildResult 'FAILURE'
+        }
+      }
+    }
+  }
+}
