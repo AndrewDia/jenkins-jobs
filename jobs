@@ -16,7 +16,7 @@ job('run-server') {
     shell("""
           cd hybris/bin/platform
           . `pwd`/setantenv.sh
-		  ant yunitinit
+	  ant yunitinit
           ant alltests -Dtestclasses.extensions=internshipcore
           ant production
           ant updatesystem
