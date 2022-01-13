@@ -20,7 +20,7 @@ job('run-server') {
           ant alltests -Dtestclasses.extensions=internshipcore
           ant production
           ant updatesystem
-          . `pwd`/hybrisserver.sh
+          #. `pwd`/hybrisserver.sh
           """
          )
   }
